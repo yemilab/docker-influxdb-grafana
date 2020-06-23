@@ -5,13 +5,12 @@ services:
     image: influxdb:latest
     container_name: influxdb
     ports:
-      - "8083:8083"
-      - "8086:8086"
-      - "8090:8090"
+      - "8086:8086" # HTTP service port
+      - "8088:8088" # RPC service port
     env_file:
       - '.env'
     volumes:
-      - ./container_data/influxdb:/var/lib/influxdb
+      - influxdb-data:/var/lib/influxdb
     restart: always
   
   grafana:
@@ -19,13 +18,16 @@ services:
     container_name: grafana
     ports:
       - "3000:3000"
-    user: "0"
     env_file:
       - '.env'
     links:
       - influxdb
     volumes:
-      - ./container_data/grafana:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
     depends_on:
       - influxdb
     restart: always
+
+volumes:
+  influxdb-data:
+  grafana-data:
