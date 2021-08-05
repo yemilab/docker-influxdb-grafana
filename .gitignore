@@ -1,2 +1,4 @@
 .env
 container_data/
+# macOS
+.DS_Store
